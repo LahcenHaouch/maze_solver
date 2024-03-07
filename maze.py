@@ -33,13 +33,29 @@ class Maze:
                 x1 = self.x1 + i * self.cell_size_x
                 y1 = self.y1 + j * self.cell_size_y
 
-                col.append(
-                    Cell(x1, x1 + self.cell_size_x, y1 + self.cell_size_y, self.win)
+                cell = Cell(
+                    x1,
+                    x1 + self.cell_size_x,
+                    y1,
+                    y1 + self.cell_size_y,
+                    self.win,
                 )
+                col.append(cell)
+                self._draw_cell_no_cd(cell)
 
             self._cells.append(col)
 
+    def _draw_cell_no_cd(self, cell: Cell):
+        if self.win is None:
+            return
+
+        cell.draw()
+        self._animate()
+
     def _draw_cell(self, i: int, j: int):
+        if self.win is None:
+            return
+
         cell = self._cells[i][j]
         cell.draw()
         self._animate()
@@ -47,3 +63,12 @@ class Maze:
     def _animate(self):
         self.win.redraw()
         sleep(0.05)
+
+    def _break_entrance_and_exit(self):
+        start = self._cells[0][0]
+        start.has_top_wall = False
+        self._draw_cell_no_cd(start)
+
+        exit = self._cells[self.num_cols - 1][self.num_rows - 1]
+        exit.has_bottom_wall = False
+        self._draw_cell_no_cd(exit)

@@ -1,6 +1,7 @@
 from tkinter import Tk, BOTH, Canvas
 
-class Window():
+
+class Window:
     def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
@@ -10,14 +11,14 @@ class Window():
         self.canvas = Canvas(self.__root, bg="white", height=height, width=width)
         self.canvas.pack(fill=BOTH, expand=1)
         self.running = False
-    
+
     def redraw(self):
         self.__root.update_idletasks()
         self.__root.update()
 
     def wait_for_close(self):
         self.running = True
-        
+
         while self.running:
             self.redraw()
 
@@ -25,16 +26,20 @@ class Window():
         self.running = False
 
 
-class Point():
+class Point:
     def __init__(self, x: int, y: int):
         self.x = x
         self.y = y
 
-class Line():
-    def __init__(self, a: Point, b: Point):
+
+class Line:
+    def __init__(self, a: Point, b: Point, canvas: Canvas):
         self.a = a
         self.b = b
+        self.canvas = canvas
 
-    def draw(self, canvas: Canvas, fill_color: str):
-        canvas.create_line(self.a.x, self.a.y, self.b.x, self.b.y, fill=fill_color, width=2)
-        canvas.pack(fill=BOTH, expand=1)
+    def draw(self, fill_color: str):
+        self.canvas.create_line(
+            self.a.x, self.a.y, self.b.x, self.b.y, fill=fill_color, width=2
+        )
+        self.canvas.pack(fill=BOTH, expand=1)
