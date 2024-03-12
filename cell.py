@@ -15,6 +15,9 @@ class Cell:
         self.visited = False
 
     def draw(self):
+        if self._win is None:
+            return
+
         top_wall = Line(
             Point(self._x1, self._y1), Point(self._x2, self._y1), self._win.canvas
         )
@@ -48,6 +51,9 @@ class Cell:
             left_wall.draw("#d9d9d9")
 
     def draw_move(self, to_cell, undo=False):
+        if self._win is None:
+            return
+
         color = "red"
         if undo:
             color = "gray"

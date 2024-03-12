@@ -79,6 +79,11 @@ class Maze:
         exit.has_bottom_wall = False
         self._draw_cell_no_cd(exit)
 
+    def _reset_cells_visited(self):
+        for i in range(self.num_cols):
+            for j in range(self.num_rows):
+                self._cells[i][j].visited = False
+
     def _break_walls_r(self, i: int, j: int):
         cell = self._cells[i][j]
         cell.visited = True
@@ -115,8 +120,6 @@ class Maze:
             random_direction = possible_directions[
                 random.randrange(0, len(possible_directions))
             ]
-            print("random_direction", random_direction)
-            print("possible_directions", possible_directions)
 
             direction = random_direction[0]
 
