@@ -137,3 +137,80 @@ class Maze:
                 left.has_right_wall = False
 
             self._break_walls_r(random_direction[1], random_direction[2])
+
+    def solve(self, i, j):
+        self._solve_r(i, j)
+
+    def _solve_r(self, i=0, j=0):
+        self._animate()
+        cell = self._cells[i][j]
+        cell.visited = True
+        print(i, j)
+
+        if i == self.num_cols - 1 and j == self.num_rows - 1:
+            return True
+
+        top = self._cells[i][j - 1] if j - 1 >= 0 and j - 1 < self.num_rows else None
+        right = self._cells[i + 1][j] if i + 1 >= 0 and i + 1 < self.num_cols else None
+        bottom = self._cells[i][j + 1] if j + 1 >= 0 and j + 1 < self.num_rows else None
+        left = self._cells[i - 1][j] if i - 1 >= 0 and i - 1 < self.num_cols else None
+
+        print("top", top)
+        print("right", right)
+        print("bottom", bottom)
+        print("left", left)
+
+        if (
+            top is not None
+            and not top.visited
+            and not cell.has_top_wall
+            and not top.has_bottom_wall
+        ):
+            cell.draw_move(top)
+            top_move = self._solve_r(i, j - 1)
+
+            if top_move:
+                return True
+            else:
+                cell.draw_move(top, True)
+        if (
+            right is not None
+            and not right.visited
+            and not cell.has_right_wall
+            and not right.has_left_wall
+        ):
+            cell.draw_move(right)
+            right_move = self._solve_r(i + 1, j)
+
+            if right_move:
+                return True
+            else:
+                cell.draw_move(right, True)
+        if (
+            bottom is not None
+            and not bottom.visited
+            and not cell.has_bottom_wall
+            and not bottom.has_top_wall
+        ):
+            cell.draw_move(bottom)
+            bottom_move = self._solve_r(i, j + 1)
+
+            if bottom_move:
+                return True
+            else:
+                cell.draw_move(bottom, True)
+        if (
+            left is not None
+            and not left.visited
+            and not cell.has_left_wall
+            and not left.has_right_wall
+        ):
+            cell.draw_move(left)
+            left_move = self._solve_r(i - 1, j)
+
+            if left_move:
+                return True
+            else:
+                cell.draw_move(left, True)
+
+        return False

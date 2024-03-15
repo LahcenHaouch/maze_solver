@@ -61,5 +61,6 @@ class Cell:
         line = Line(
             Point((self._x2 + self._x1) / 2, (self._y2 + self._y1) / 2),
             Point((to_cell._x2 + to_cell._x1) / 2, (to_cell._y2 + to_cell._y1) / 2),
+            self._win.canvas,
         )
-        line.draw(self._win.canvas, color)
+        line.draw(color)
